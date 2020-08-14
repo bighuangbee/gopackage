@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gopackage/loger"
 )
 
 var DB *gorm.DB
@@ -32,7 +33,7 @@ func NewMySqlConnetcion(dbHost string, dbName string, dbUser string, dbPassword 
 
 	//DB.SetLogger(loger.Loger)
 
-	fmt.Println("MySql Connect Success.", dbHost)
+	loger.Info("MySql Connect Success.", dbHost)
 	return DB
 }
 

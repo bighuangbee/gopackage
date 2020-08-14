@@ -7,11 +7,11 @@ import (
 )
 
 type Model struct {
-	ID uint `gorm:"column:id;primary_key" json:"id"`
+	ID int64 `gorm:"column:id;primary_key" json:"id"`
 }
 
 type BaseModel struct {
-	ID        uint `gorm:"column:id;primary_key" json:"id"`
+	ID        int64 `gorm:"column:id;primary_key" json:"id"`
 	CreatedAt Time `gorm:"column:create_time" json:"create_time"`
 	UpdatedAt Time `gorm:"column:update_time" json:"update_time"`
 	DeletedAt Time `gorm:"column:delete_time" json:"delete_time";sql:"index"`
