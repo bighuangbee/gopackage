@@ -15,7 +15,7 @@ import (
 const JWT_Encrtpy = "jlkwdaa"
 
 const JWT_KEY_SYS = "sysUser"
-const JWT_KEY_DUTY = "dutyUser"
+const JWT_KEY_DUTY = "user"
 const JWT_KEY_DRONE = "droneUser"
 
 const USER_TYPE_MOINTOR = 1

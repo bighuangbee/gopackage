@@ -68,3 +68,12 @@ func InArray(str string, arr []string) bool{
 	}
 	return false
 }
+
+func InArrayInt64(str int64, arr []int64) bool{
+	for _, val := range arr{
+		if val == str{
+			return true
+		}
+	}
+	return false
+}

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"gopackage/loger"
-	"io/ioutil"
 	"strings"
 	"time"
 )
@@ -29,9 +28,9 @@ func RequestLog() gin.HandlerFunc {
 			}
 		}else{
 			if strings.Contains(c.Request.Header.Get("Content-Type"), "application/json"){
-				body,_ := ioutil.ReadAll(c.Request.Body)
-				c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-				requestParams = string(body)
+				//body,_ := ioutil.ReadAll(c.Request.Body)
+				//c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+				//requestParams = string(body)
 			} else{
 				c.DefaultPostForm("default", "")
 				c.Request.ParseForm()
