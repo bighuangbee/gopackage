@@ -20,13 +20,12 @@ func Success(c *gin.Context, data interface{}) {
 }
 
 func Error(c *gin.Context, code int, attachMsg string) {
-	msg := StatusText[code]
-	if(attachMsg != ""){
-		msg = msg + ", " + attachMsg
+	if(attachMsg == ""){
+		attachMsg = StatusText[code]
 	}
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
 		"code" 	: code,
-		"msg" : msg,
+		"msg" : attachMsg,
 		"data"	: nil,
 	})
 }
@@ -41,8 +40,8 @@ func UnAuthorized(c *gin.Context, msg string){
 
 func UnPerminssion(c *gin.Context, msg string){
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{
-		"code" 	: http.StatusUnauthorized,
-		"msg" :     StatusText[http.StatusUnauthorized] + ", " + msg,
+		"code" 	: http.StatusMethodNotAllowed,
+		"msg" :     StatusText[http.StatusMethodNotAllowed] + ", " + msg,
 		"data"	: nil,
 	})
 }

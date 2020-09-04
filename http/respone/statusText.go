@@ -5,8 +5,8 @@ import "net/http"
 var StatusText = map[int]string{
 	http.StatusOK:        			"ok",
 	http.StatusBadRequest:			"failed",
-	http.StatusUnauthorized:		"没有访问权限",
-	http.StatusForbidden:			"没有访问权限",
+	http.StatusUnauthorized:		"未登录或已失效",
+	http.StatusMethodNotAllowed:	"没有访问权限",
 
 	INVALID_PARAMS:              "请求参数出错",
 	USER_PASSWORD_INCORRECT:     "用户帐号或登录密码不正确",

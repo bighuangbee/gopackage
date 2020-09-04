@@ -31,7 +31,7 @@ func NewMySqlConnetcion(dbHost string, dbName string, dbUser string, dbPassword 
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
 
-	//DB.SetLogger(loger.Loger)
+	DB.SetLogger(loger.Loger)
 
 	loger.Info("MySql Connect Success.", dbHost)
 	return DB

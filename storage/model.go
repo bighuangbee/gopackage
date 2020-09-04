@@ -20,8 +20,8 @@ type BaseModel struct {
 type Time time.Time
 
 var (
-	TimeFormart = "2006-01-02 15:04:05"
-	zone        = "Asia/Shanghai"
+	TimeFormart    = "2006-01-02 15:04:05"
+	zone           = "Asia/Shanghai"
 )
 
 // UnmarshalJSON implements json unmarshal interface.
@@ -41,6 +41,10 @@ func (t Time) MarshalJSON() ([]byte, error) {
 }
 
 func (t Time) String() string {
+	ti := Time{}
+	if t == ti {
+		return ""
+	}
 	return time.Time(t).Format(TimeFormart)
 }
 

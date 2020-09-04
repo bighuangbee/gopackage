@@ -3,6 +3,7 @@ package jwtService
 import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"gopackage/redis"
 )
 
 /**
@@ -12,10 +13,10 @@ import (
 
 //const JWT_Encrtpy = "1be9261239972389b9c3e9e653664e93a"
 
-const JWT_Encrtpy = "jlkwdaa"
+const JWT_Encrtpy = "jl*7233kweGJdAAzy13daa"
 
 const JWT_KEY_SYS = "sysUser"
-const JWT_KEY_DUTY = "user"
+const JWT_KEY_APP = "user"
 const JWT_KEY_DRONE = "droneUser"
 
 const USER_TYPE_MOINTOR = 1
@@ -24,15 +25,17 @@ const USER_TYPE_DRONE = 3
 
 var USER_TYPE  = map[int]string{
 	USER_TYPE_MOINTOR: JWT_KEY_SYS,
-	USER_TYPE_DUTY: JWT_KEY_DUTY,
-	USER_TYPE_DRONE: JWT_KEY_DRONE,
+	USER_TYPE_DUTY:    JWT_KEY_APP,
+	USER_TYPE_DRONE:   JWT_KEY_DRONE,
 }
 
 type UserClaims struct {
 	UserName string `json:"username"`
+	NickName string `json:"nickname"`
 	UserType int8 `json:"userType"`
 	CompanyId int32 `json:"company_id"`
 	Roles []string `json:"roles"`
+	DeviceUUID string `json:"device_uuid"`
 	jwt.StandardClaims
 }
 
@@ -46,7 +49,6 @@ type UserJwt struct{
 func NewUserJwt(userType string) *UserJwt{
 
 	return &UserJwt{
-		//Type:            userType,
 		Encrtpy:         userType + JWT_Encrtpy,
 		TokenKey:        userType + ":token_%s",
 		InValidTokenKey: userType + "TokenInvalid:%s",
@@ -84,3 +86,6 @@ func (user *UserJwt)CreateTokenKey(userName string) (string){
 	return fmt.Sprintf(user.TokenKey, userName)
 }
 
+func (user *UserJwt)DelToken(userName string) error{
+	return redis.Redis.Del(user.CreateTokenKey(userName)).Err()
+}

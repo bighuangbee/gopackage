@@ -1,10 +1,13 @@
 package units
 
 import (
+	"bytes"
 	"crypto/md5"
+	"encoding/binary"
 	"encoding/hex"
 	"math/rand"
 	"strings"
+	"time"
 )
 
 func RandStr(n int) string {
@@ -41,6 +44,7 @@ func SliceUnique(slice []string) []string {
 }
 
 func SubStr(str string, start, length int) string{
+	if str == "" {return ""}
 	rs := []rune(str)
 	return string(rs[start:length])
 }
@@ -69,11 +73,33 @@ func InArray(str string, arr []string) bool{
 	return false
 }
 
-func InArrayInt64(str int64, arr []int64) bool{
+func InArrayInt64(target int64, arr []int64) bool{
 	for _, val := range arr{
-		if val == str{
+		if val == target{
 			return true
 		}
 	}
 	return false
+}
+
+func Date2timestamp(datetime string) (timestamp int64) {
+	var TimeFormart = "2006-01-02 15:04:05"
+	time,_ := time.ParseInLocation(TimeFormart, datetime, time.Local)
+	timestamp = time.Unix()
+	return timestamp
+}
+
+//整形转换成字节
+func IntToBytes(n int) []byte {
+	x := int32(n)
+	bytesBuffer := bytes.NewBuffer([]byte{})
+	binary.Write(bytesBuffer, binary.LittleEndian, x)
+	return bytesBuffer.Bytes()
+}
+
+func BytesToInt(bys []byte) int {
+	bytebuff := bytes.NewBuffer(bys)
+	var data int32
+	binary.Read(bytebuff, binary.LittleEndian, &data)
+	return int(data)
 }
