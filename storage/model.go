@@ -45,10 +45,10 @@ func (t Time) String() string {
 	if t == ti {
 		return ""
 	}
-	return time.Time(t).Format(TimeFormart)
+	return t.Local().Format(TimeFormart)
 }
 
-func (t Time) local() time.Time {
+func (t Time) Local() time.Time {
 	loc, _ := time.LoadLocation(zone)
 	return time.Time(t).In(loc)
 }
