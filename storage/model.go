@@ -19,9 +19,14 @@ type BaseModel struct {
 
 type Time time.Time
 
+func init() {
+	sh, _ := time.LoadLocation(Zone)
+	time.Local = sh
+}
+
 var (
-	TimeFormart    = "2006-01-02 15:04:05"
-	zone           = "Asia/Shanghai"
+	TimeFormart = "2006-01-02 15:04:05"
+	Zone        = "Asia/Shanghai"
 )
 
 // UnmarshalJSON implements json unmarshal interface.
@@ -49,7 +54,7 @@ func (t Time) String() string {
 }
 
 func (t Time) Local() time.Time {
-	loc, _ := time.LoadLocation(zone)
+	loc, _ := time.LoadLocation(Zone)
 	return time.Time(t).In(loc)
 }
 

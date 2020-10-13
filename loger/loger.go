@@ -94,9 +94,10 @@ func setPrefix(level string) string{
 
 	pc, file, line, ok := runtime.Caller(2)
 	if ok {
+		loc, _ := time.LoadLocation("Asia/Shanghai")
 		funcName := runtime.FuncForPC(pc).Name()
 		funcName = strings.TrimPrefix(filepath.Ext(funcName), ".")
-		timestamp := time.Now().Local().Format("2006-01-02 15:04:05")
+		timestamp := time.Now().In(loc).Format("2006-01-02 15:04:05")
 
 		//path, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 		//path = path[1:] + "/"
