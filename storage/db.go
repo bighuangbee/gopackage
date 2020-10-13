@@ -13,7 +13,7 @@ var DB *gorm.DB
 /**
 	docker容器内访问宿主机MySql，修改监听地址为0.0.0.0  /etc/mysql/mysql.conf.d/mysqld.cnf
  */
-func NewStorageConnetcion(dbType string, dbHost string, dbName string, dbUser string, dbPassword string) *gorm.DB{
+func NewDBConnetcion(dbType string, dbHost string, dbPort string, dbName string, dbUser string, dbPassword string) *gorm.DB{
 	var err error
 
 	if dbType == "mysql" {
@@ -24,8 +24,9 @@ func NewStorageConnetcion(dbType string, dbHost string, dbName string, dbUser st
 			dbName))
 	}else if dbType == "postgres"{
 
-		DB, err = gorm.Open(dbType, fmt.Sprintf("host=%s dbname=%s user=%s sslmode=disable password=%s",
+		DB, err = gorm.Open(dbType, fmt.Sprintf("host=%s port=%s dbname=%s user=%s sslmode=disable password=%s",
 			dbHost,
+			dbPort,
 			dbName,
 			dbUser,
 			dbPassword))
