@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"gopackage/loger"
 )
 
@@ -12,18 +13,26 @@ var DB *gorm.DB
 /**
 	docker容器内访问宿主机MySql，修改监听地址为0.0.0.0  /etc/mysql/mysql.conf.d/mysqld.cnf
  */
-func NewMySqlConnetcion(dbHost string, dbName string, dbUser string, dbPassword string) *gorm.DB{
+func NewStorageConnetcion(dbType string, dbHost string, dbName string, dbUser string, dbPassword string) *gorm.DB{
 	var err error
 
-	dbType 		:= "mysql"
-	DB, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		dbUser,
-		dbPassword,
-		dbHost,
-		dbName))
+	if dbType == "mysql" {
+		DB, err = gorm.Open(dbType, fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+			dbUser,
+			dbPassword,
+			dbHost,
+			dbName))
+	}else if dbType == "postgres"{
+
+		DB, err = gorm.Open(dbType, fmt.Sprintf("host=%s dbname=%s user=%s sslmode=disable password=%s",
+			dbHost,
+			dbName,
+			dbUser,
+			dbPassword))
+	}
 
 	if err != nil {
-		panic("MySql Connect Failed !" + err.Error())
+		panic(dbType + " Connect Failed !" + err.Error())
 	}
 
 	DB.LogMode(true)
@@ -33,7 +42,7 @@ func NewMySqlConnetcion(dbHost string, dbName string, dbUser string, dbPassword 
 
 	DB.SetLogger(loger.Loger)
 
-	loger.Info("MySql Connect Success.", dbHost)
+	loger.Info(dbType + " Connect Success.", dbHost)
 	return DB
 }
 

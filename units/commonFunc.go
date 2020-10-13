@@ -5,6 +5,8 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"encoding/hex"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"io/ioutil"
 	"math/rand"
 	"strings"
 	"time"
@@ -102,4 +104,30 @@ func BytesToInt(bys []byte) int {
 	var data int32
 	binary.Read(bytebuff, binary.LittleEndian, &data)
 	return int(data)
+}
+
+func GetFilesByPath(basePath string) ([]string) {
+	fileArr := []string{}
+	fs,_:= ioutil.ReadDir(basePath)
+	for _,file := range fs{
+		if file.IsDir(){
+			fileArr = append(fileArr, GetFilesByPath(basePath+file.Name()+"/")...)
+		}else{
+			fileArr = append(fileArr, basePath + "/" + file.Name())
+		}
+	}
+	return fileArr
+}
+
+func ConvertString(src string, charset string) string{
+	var str string
+	switch charset {
+	case "GB18030":
+		var decodeBytes, _ = simplifiedchinese.GB18030.NewDecoder().Bytes([]byte(src))
+		str = string(decodeBytes)
+	default:
+		str = src
+	}
+
+	return str
 }
