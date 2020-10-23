@@ -11,9 +11,7 @@ import (
 * @Date: 2020/4/24 22:36
  */
 
-//const JWT_Encrtpy = "1be9261239972389b9c3e9e653664e93a"
-
-const JWT_Encrtpy = "jl*7233kweGJdAAzy13daa"
+//const JWT_Encrtpy = "jl*7233kweGJdAAzy13daa"
 
 const JWT_KEY_SYS = "sysUser"
 const JWT_KEY_APP = "user"
@@ -46,10 +44,10 @@ type UserJwt struct{
 	InValidTokenKey string	//失效token索引
 }
 
-func NewUserJwt(userType string) *UserJwt{
+func NewUserJwt(userType string, encrtpy string) *UserJwt{
 
 	return &UserJwt{
-		Encrtpy:         userType + JWT_Encrtpy,
+		Encrtpy:         userType + encrtpy,
 		TokenKey:        userType + ":token_%s",
 		InValidTokenKey: userType + "TokenInvalid:%s",
 	}
