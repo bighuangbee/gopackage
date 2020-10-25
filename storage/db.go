@@ -13,7 +13,7 @@ var DB *gorm.DB
 /**
 	docker容器内访问宿主机MySql，修改监听地址为0.0.0.0  /etc/mysql/mysql.conf.d/mysqld.cnf
  */
-func NewDBConnetcion(dbType string, dbHost string, dbPort string, dbName string, dbUser string, dbPassword string) *gorm.DB{
+func NewDBConnetcion(dbType string, dbHost string, dbPort string, dbName string, dbUser string, dbPassword string, dbLog bool) *gorm.DB{
 	var err error
 
 	if dbType == "mysql" {
@@ -36,7 +36,7 @@ func NewDBConnetcion(dbType string, dbHost string, dbPort string, dbName string,
 		panic(dbType + " Connect Failed !" + err.Error())
 	}
 
-	DB.LogMode(true)
+	DB.LogMode(dbLog)
 	DB.SingularTable(true)
 	DB.DB().SetMaxIdleConns(10)
 	DB.DB().SetMaxOpenConns(100)
