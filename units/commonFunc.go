@@ -2,7 +2,10 @@ package units
 
 import (
 	"bytes"
+	"crypto/hmac"
 	"crypto/md5"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/binary"
 	"encoding/hex"
 	"golang.org/x/text/encoding/simplifiedchinese"
@@ -130,4 +133,12 @@ func ConvertString(src string, charset string) string{
 	}
 
 	return str
+}
+
+func HmacSHA256(message string, secret string) string {
+	key := []byte(secret)
+	h := hmac.New(sha256.New, key)
+	h.Write([]byte(message))
+	result := h.Sum(nil)
+	return base64.StdEncoding.EncodeToString(result)
 }
