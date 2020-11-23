@@ -26,7 +26,7 @@ func BuildInsertOrUpdateSql(table string, duplicateKey string, columns map[strin
 	values += "'" + units.ToStr(duplicateVal) +"' ,"
 	for key, val := range columns{
 		if duplicateKey != key && strings.ToLower(key) != "id" {
-			keys += key + ","
+			keys += "`" + key + "`,"
 
 			//包含'的字段值不用’包住
 			if strings.Contains(units.ToStr(val), "'"){
@@ -38,9 +38,9 @@ func BuildInsertOrUpdateSql(table string, duplicateKey string, columns map[strin
 			valuesChar += "'" + units.PlaceChar(val) + "',"
 
 			if strings.Contains(units.ToStr(val), "'"){
-				updateStr += key + "=" + units.ToStr(val) + ","
+				updateStr += "`" + key + "`=" + units.ToStr(val) + ","
 			}else{
-				updateStr += key + "='" + units.ToStr(val) + "',"
+				updateStr += "`" + key + "`='" + units.ToStr(val) + "',"
 			}
 		}
 	}
