@@ -6,24 +6,25 @@ import (
 )
 
 /*
+	有唯一键更新插入，没有则插入
 	@Param tale 表名
 	@Param duplicateKey 唯一键
 	@param colums 键值对
 */
 func BuildInsertOrUpdateSql(table string, duplicateKey string, columns map[string]interface{})(string){
 
-	duplicateVal, ok := columns[duplicateKey]
-	if !ok{
-		return ""
-	}
-
 	var keys string
 	var values string
 	var valuesChar string
 	var updateStr string
+	var sql string
 
-	keys += duplicateKey + ","
-	values += "'" + units.ToStr(duplicateVal) +"' ,"
+	duplicateVal, ok := columns[duplicateKey]
+	if duplicateKey != ""{
+		keys += "`" + duplicateKey + "`,"
+		values += "'" + units.ToStr(duplicateVal) +"' ,"
+	}
+
 	for key, val := range columns{
 		if duplicateKey != key && strings.ToLower(key) != "id" {
 			keys += "`" + key + "`,"
@@ -45,9 +46,12 @@ func BuildInsertOrUpdateSql(table string, duplicateKey string, columns map[strin
 		}
 	}
 
-	sql := `INSERT INTO ` + table +`(`
+	sql = `INSERT INTO ` + table +`(`
 	sql += strings.TrimRight(keys, ",") + ") VALUES( " + strings.TrimRight(values, ",") + ")"
-	sql += " ON DUPLICATE KEY UPDATE " + strings.TrimRight(updateStr, ",")
+
+	if ok{
+		sql += " ON DUPLICATE KEY UPDATE " + strings.TrimRight(updateStr, ",")
+	}
 
 	return sql
 }

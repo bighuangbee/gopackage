@@ -5,23 +5,33 @@ type PageQuery struct {
 	Length 	int64 `form:"length"`
 }
 
+var pageMin = int64(1)
+var LengthDefault = int64(10)
+var LengthMax = int64(500)
+
 func (page *PageQuery)Offset()int64{
 	if page.Page <= 0 {
-		page.Page = 1
+		page.Page = pageMin
 	}
-
 	return (page.Page-1)*page.Limit()
 }
 
 func (page *PageQuery)Limit()int64{
 	if page.Length <= 0 {
-		return 10
+		return LengthDefault
 	}
-	if page.Length > 1000 {
+	if page.Length > LengthMax {
 
-		return 1000
+		return LengthMax
 	}
 	return page.Length
+}
+
+func (page *PageQuery)Pagination()int64{
+	if page.Page <= 0 {
+		page.Page = pageMin
+	}
+	return page.Page
 }
 
 type PageResult map[string]interface{}
