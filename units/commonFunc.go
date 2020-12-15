@@ -11,6 +11,7 @@ import (
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"io/ioutil"
 	"math/rand"
+	"path"
 	"strings"
 	"time"
 )
@@ -141,4 +142,10 @@ func HmacSHA256(message string, secret string) string {
 	h.Write([]byte(message))
 	result := h.Sum(nil)
 	return base64.StdEncoding.EncodeToString(result)
+}
+
+func GetFilename(filePath string)string{
+	filePath = path.Base(filePath)
+	ext := path.Ext(filePath)
+	return filePath[0:len(filePath) - len(ext)]
 }

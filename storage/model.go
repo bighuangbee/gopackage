@@ -27,6 +27,7 @@ func init() {
 var (
 	TimeFormart = "2006-01-02 15:04:05"
 	Zone        = "Asia/Shanghai"
+	DateZero    = "2006-01-02 00:00:00"
 )
 
 // UnmarshalJSON implements json unmarshal interface.
