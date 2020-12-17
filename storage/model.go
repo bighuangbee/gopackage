@@ -17,6 +17,14 @@ type BaseModel struct {
 	DeletedAt Time `gorm:"column:delete_time" json:"delete_time";sql:"index"`
 }
 
+type DefaultModel struct {
+	ID        int64 `gorm:"column:id;primary_key" json:"id"`
+	CreatedAt Time `gorm:"column:created_at;default:null" json:"created_at"`
+	UpdatedAt Time `gorm:"column:updated_at;default:null" json:"created_at"`
+	DeletedAt Time `sql:"index"gorm:"column:deleted_at; default:null" json:"deletedAt"`
+}
+
+
 type Time time.Time
 
 func init() {
