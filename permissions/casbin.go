@@ -20,6 +20,8 @@ func Setup(path string, db *gorm.DB){
 	// Load the policy from DB.
 	err := Casbin.LoadPolicy()
 
+	Casbin.EnableAutoSave(true)
+
 	if err != nil {
 		loger.Error("# Casbin SetUp Failed.", err)
 		return

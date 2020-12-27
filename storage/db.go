@@ -33,6 +33,7 @@ func NewDBConnetcion(dbType string, dbHost string, dbPort string, dbName string,
 	}
 
 	if err != nil {
+		loger.Error("============NewDBConnetcion", err.Error())
 		panic(dbType + " Connect Failed !" + err.Error())
 	}
 

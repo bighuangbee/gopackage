@@ -46,3 +46,7 @@ func (j JSON) IsNull() bool {
 func (j JSON) Equals(j1 JSON) bool {
 	return bytes.Equal([]byte(j), []byte(j1))
 }
+
+func (t JSON) String() string {
+	return string(t)
+}
