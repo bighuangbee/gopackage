@@ -8,6 +8,10 @@ import (
 	"encoding/base64"
 	"encoding/binary"
 	"encoding/hex"
+	"encoding/json"
+	"github.com/gin-gonic/gin"
+	"github.com/gogo/protobuf/jsonpb"
+	"github.com/gogo/protobuf/proto"
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"io/ioutil"
 	"math/rand"
@@ -148,4 +152,36 @@ func GetFilename(filePath string)string{
 	filePath = path.Base(filePath)
 	ext := path.Ext(filePath)
 	return filePath[0:len(filePath) - len(ext)]
+}
+
+func Proto2H(message proto.Message, filter ...string)(data gin.H){
+	m := jsonpb.Marshaler{
+		EnumsAsInts:  false,// 是否将枚举值设定为整数，而不是字符串类型
+		EmitDefaults: true, // 是否将字段值为空的渲染到JSON结构中
+		Indent:       "",	// 缩进每个级别的字符串
+		OrigName:     true, // //是否使用原生的proto协议中的字段
+		AnyResolver:  nil,
+	}
+	var _buffer  bytes.Buffer
+	err := m.Marshal(&_buffer, message)
+	if err != nil{
+		return
+	}
+
+	err = json.Unmarshal(_buffer.Bytes(), &data)
+	if err != nil {
+		return
+	}
+
+	dataFilter := gin.H{}
+	if len(filter) > 0{
+		for _, val := range filter{
+			item, ok := data[val]
+			if ok{
+				dataFilter[val] = item
+			}
+		}
+		return dataFilter
+	}
+	return
 }

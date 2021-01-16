@@ -5,13 +5,15 @@ import (
 	"net/http"
 )
 
-type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+func Success(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusOK, gin.H{
+		"code" 	: http.StatusOK,
+		"msg" : StatusText[http.StatusOK],
+		"data"	: data,
+	})
 }
 
-func Success(c *gin.Context, data interface{}) {
+func SuccessH(c *gin.Context, data gin.H){
 	c.JSON(http.StatusOK, gin.H{
 		"code" 	: http.StatusOK,
 		"msg" : StatusText[http.StatusOK],
