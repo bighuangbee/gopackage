@@ -8,7 +8,6 @@ type Txlsx struct {
 	Filename string
 }
 
-
 func (t Txlsx)Read()([][]string, error){
 	rows := [][]string{}
 

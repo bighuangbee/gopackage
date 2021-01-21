@@ -133,6 +133,7 @@ func ConvertString(src string, charset string) string{
 	case "GB18030":
 		var decodeBytes, _ = simplifiedchinese.GB18030.NewDecoder().Bytes([]byte(src))
 		str = string(decodeBytes)
+
 	default:
 		str = src
 	}
